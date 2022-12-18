@@ -1,0 +1,26 @@
+name: Jest Coverage CI
+
+jobs:
+  jest-coverage:
+    name: Jest Coverage
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+        with:
+          presist-credentials: false
+
+      - name: Jest Coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        id: coverage
+        with:
+          test-script: npm test
+          output: report-markdown
+
+      - name: Pull Request Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: ${{ steps.coverage.outputs.report }}
