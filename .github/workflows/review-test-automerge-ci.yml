@@ -1,4 +1,4 @@
-name: Auto Merge CI
+name: Review, Test, and Auto Merge CI
 
 on:
   workflow_call:

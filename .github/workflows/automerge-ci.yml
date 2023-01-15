@@ -1,0 +1,27 @@
+name: Auto Merge CI
+
+on:
+  workflow_call:
+    inputs:
+      auto-merge-exlude:
+        description: 'A semicolon seperated list of packages that you do not want to be auto-merged.'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  automerge:
+  name: Automerge Dependabot PRs
+  if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'dependabot[bot]'
+  needs: test
+  permissions:
+    pull-requests: write
+    contents: write
+  runs-on: ubuntu-latest
+  steps:
+    - uses: fastify/github-action-merge-dependabot@v3
+      with:
+        exclude: ${{ inputs.auto-merge-exclude }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
