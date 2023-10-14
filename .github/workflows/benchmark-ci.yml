@@ -1,14 +1,14 @@
-name: Test CI
+name: Benchmark CI
 
 jobs:
   test:
-    name: Test
+    name: Benchmark
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     strategy:
       matrix:
-        node-version: [lts/*, latest]
+        node-version: [latest]
         os: [ubuntu-latest]
 
     steps:
@@ -25,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: npm i --ignore-scripts
 
-      - name: Run tests
-        run: npm test
+      - name: Run benchmark
+        run: npm run test:benchmark
