@@ -1,5 +1,7 @@
 name: Dependency Review CI
 
+on: workflow_call
+
 jobs:
   dependency-review:
     name: Dependency Review

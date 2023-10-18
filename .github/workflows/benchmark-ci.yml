@@ -1,5 +1,7 @@
 name: Benchmark CI
 
+on: workflow_call
+
 jobs:
   test:
     name: Benchmark

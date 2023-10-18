@@ -1,5 +1,7 @@
 name: Jest Coverage CI
 
+on: workflow_call
+
 jobs:
   jest-coverage:
     name: Jest Coverage
