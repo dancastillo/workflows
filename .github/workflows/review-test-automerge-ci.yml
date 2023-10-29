@@ -32,7 +32,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        node-version: [lts/*, latest]
+        node-version: [lts/*]
         os: [ubuntu-latest]
 
     steps:
