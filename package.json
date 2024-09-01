@@ -1,12 +1,14 @@
 {
-  "name": "workflows",
+  "name": "@dancastillo/workflows",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "description": "Reusable workflows for GitHub Actions",
+  "scripts": {},
+  "keywords": [
+    "workflows",
+    "github"
+  ],
+  "author": "Dan Castillo <dancastillo99@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
 }
