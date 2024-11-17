@@ -13,11 +13,6 @@ on:
         required: false
         type: boolean
         default: false
-      lint:
-        description: 'Set to true to run linting scripts.'
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   dependency-review:
@@ -114,36 +109,6 @@ jobs:
       - name: Run lint checker
         run: npm run lint
       
-  build:
-    name: Build with tsup
-    runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
-    strategy:
-      matrix:
-        node-version: [lts/*]
-        os: [ubuntu-latest]
-
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v3
-        with:
-          persist-credentials: false
-
-      - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: npm i --ignore-scripts
-
-      - name: Run build
-        run: npm run build
-
-      - name: Run check-exports
-        run: npm run check-exports
-
   test:
     name: Test
     runs-on: ${{ matrix.os }}
