@@ -51,8 +51,7 @@ jobs:
     name: Format Code
     if: >
       !failure() &&
-      !cancelled() &&
-      inputs.lint == true
+      !cancelled()
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -82,8 +81,7 @@ jobs:
     name: Lint Code
     if: >
       !failure() &&
-      !cancelled() &&
-      inputs.lint == true
+      !cancelled()
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
