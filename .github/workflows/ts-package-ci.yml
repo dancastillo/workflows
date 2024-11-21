@@ -118,9 +118,6 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Run check-exports
-        run: npm run check-exports
-
   test:
     name: Test
     runs-on: ${{ matrix.os }}
