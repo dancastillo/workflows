@@ -1,0 +1,52 @@
+name: Test with PostgreSQL
+
+on:
+  push:
+    branches:
+     - main
+    paths:
+      - '.github/workflows/*.yml'
+  pull_request:
+    paths:
+      - '.github/workflows/*.yml'
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run DB migrations
+        run: npm run db:migrate 
+        env:
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+
+      - name: Run DB seeds
+        run: npm run db:seed 
+        env: 
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+
+      - name: Run tests
+        run: npm run test
+        env: 
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
