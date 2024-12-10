@@ -3,6 +3,11 @@ name: Typescript ESM CI
 on:
   workflow_call:
     inputs:
+      test:
+        description: 'Run test suite.'
+        required: false
+        default: true
+        type: boolean
       auto-merge-exclude:
         description: 'A semicolon seperated list of packages that you do not want to be auto-merged.'
         required: false
@@ -109,6 +114,11 @@ jobs:
       
   test:
     name: Test
+    if: >
+      !failure() &&
+      !cancelled() &&
+      inputs.test != false
+
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
