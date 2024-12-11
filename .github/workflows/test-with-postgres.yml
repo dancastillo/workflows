@@ -1,14 +1,18 @@
 name: Test with PostgreSQL
 
 on:
-  push:
-    branches:
-     - main
-    paths:
-      - '.github/workflows/*.yml'
-  pull_request:
-    paths:
-      - '.github/workflows/*.yml'
+  workflow_call:
+    inputs:
+      db-migrations:
+        description: 'Run database migrations.'
+        required: false
+        default: true
+        type: boolean
+      db-seed:
+        description: 'Run database seeding.'
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   container-job:
@@ -24,24 +28,37 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
 
+    strategy:
+      matrix:
+        node-version: [lts/*]
+        os: [ubuntu-latest]
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
         run: npm install
 
       - name: Run DB migrations
+        if: >
+          !failure() &&
+          !cancelled() &&
+          inputs.db-migrations == true
         run: npm run db:migrate 
         env:
           DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
 
       - name: Run DB seeds
+        if: >
+          !failure() &&
+          !cancelled() &&
+          inputs.db-seed == true
         run: npm run db:seed 
         env: 
           DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
